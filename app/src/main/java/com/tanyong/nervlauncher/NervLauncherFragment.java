@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -92,10 +93,11 @@ public class NervLauncherFragment extends Fragment {
     private class ActivityHolder extends RecyclerView.ViewHolder {
         private ResolveInfo mResolveInfo;
         private TextView mNameTextView;
+        private ImageView mIconImageView;
 
         public ActivityHolder(View itemView) {
             super(itemView);
-            mNameTextView = (TextView) itemView;
+            mNameTextView = (TextView) itemView.findViewById(R.id.app_name);
             mNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,6 +108,7 @@ public class NervLauncherFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+            mIconImageView =(ImageView)itemView.findViewById(R.id.app_icon);
         }
 
         public void bindActivity(ResolveInfo resolveInfo) {
@@ -113,6 +116,7 @@ public class NervLauncherFragment extends Fragment {
             PackageManager pm = getActivity().getPackageManager();
             String appName = mResolveInfo.loadLabel(pm).toString();
             mNameTextView.setText(appName);
+            mIconImageView.setImageDrawable(mResolveInfo.loadIcon(pm));
         }
     }
 
@@ -126,7 +130,7 @@ public class NervLauncherFragment extends Fragment {
         @Override
         public ActivityHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            View view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            View view = inflater.inflate(R.layout.list_item_with_icon, parent, false);
             return new ActivityHolder(view);
         }
 
